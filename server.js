@@ -26,12 +26,12 @@ const upload = multer({
   }
 });
 
-// Create a scheme for items in the museum: a title and a path to an image.
+// Create a scheme for items in the museum: a user and a path to an image.
 const itemSchema = new mongoose.Schema({
-  title: String,
+  user: String,
   path: String,
-  price: String,
-  purchase: Boolean,
+  description: String,
+  likes: Number,
 });
 
 // Create a model for items in the museum.
@@ -52,10 +52,10 @@ app.post('/api/photos', upload.single('photo'), async (req, res) => {
 // CREATE
 app.post('/api/items', async (req, res) => {
   const item = new Item({
-    title: req.body.title,
+    user: req.body.user,
     path: req.body.path,
-    price: req.body.price,
-    purchase: false,
+    description: req.body.description,
+    likes: 0,
   });
   try {
     await item.save();
@@ -85,12 +85,12 @@ app.delete( '/api/items/:id', async(req,res)=> {
 //UPDATE
 app.put( '/api/items/:id', async(req,res)=> {
   let item = await Item.findOne({_id:req.params.id});
-  item.title = req.body.title;
-  item.price = req.body.price;
-  item.purchase = req.body.purchase;
+  item.user = req.body.user;
+  item.description = req.body.description;
+  item.likes = req.body.likes;
   await item.save();
   res.send(item);
 });
 
-app.listen(4208,() => console.log('Server listening on port 4208!'));
+app.listen(4206,() => console.log('Server listening on port 4206!'));
 

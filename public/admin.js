@@ -1,14 +1,14 @@
 var app = new Vue({
   el: '#admin',
   data: {
-    title: "",
+    user: "",
     file: null,
-    addItem: null,
-    items: [],
-    findTitle: "",
-    findItem: null,
-    price: "",
-    purchase: false,
+    addPost: null,
+    posts: [],
+    findUser: "",
+    findPost: null,
+    description: "",
+    likes: 0,
   },
   methods: {
     fileChanged(event) {
@@ -20,51 +20,51 @@ var app = new Vue({
         formData.append('photo', this.file, this.file.name);
         let r1 = await axios.post('/api/photos', formData);
         let r2 = await axios.post('/api/items', {
-          title: this.title,
+          user: this.user,
           path: r1.data.path,
-          price: this.price,
-          purchase: this.purchase,
+          description: this.description,
+          likes: this.likes,
         });
-        this.addItem = r2.data;
+        this.addPost = r2.data;
       }
       catch (error) {
         console.log(error);
       }
     },
-    async getItems() {
+    async getPosts() {
       try {
         let response = await axios.get("/api/items");
         console.log(response);
-        this.items = response.data;
+        this.posts = response.data;
         return true;
       }
       catch (error) {
         console.log(error);
       }
     },
-    selectItem(item) {
-      this.findTitle = "";
-      this.findItem = item;
+    selectPost(post) {
+      this.findUser = "";
+      this.findPost = post;
     },
-    async deleteItem(item) {
+    async deletePost(post) {
       try {
-        let response = await axios.delete("/api/items/" + item._id);
-        this.findItem = null;
-        this.getItems();
+        let response = await axios.delete("/api/items/" + post._id);
+        this.findPost = null;
+        this.getPosts();
         return true;
       }
       catch (error) {
         console.log(error);
       }
     },
-    async editItem(item) {
+    async editPost(post) {
       try {
-        let response = await axios.put("/api/items/" + item._id, {
-          title: this.findItem.title,
-          price: this.findItem.price,
+        let response = await axios.put("/api/items/" + post._id, {
+          user: this.findPost.user,
+          description: this.findPost.description,
         });
-        this.findItem = null;
-        this.getItems();
+        this.findPost = null;
+        this.getPosts();
         return true;
       }
       catch (error) {
@@ -74,22 +74,22 @@ var app = new Vue({
   },
   computed: {
     suggestions() {
-      return this.items.filter(item => item.title.toLowerCase().startsWith(this.findTitle.toLowerCase()));
+      return this.posts.filter(post => post.user.toLowerCase().startsWith(this.findUser.toLowerCase()));
     },
     sortProducts: function() {
-      function compare(item1, item2) {
-        if (item1.title > item2.title) {
+      function compare(post1, post2) {
+        if (post1.user > post2.user) {
           return 1;
         }
-        if (item1.title < item2.title) {
+        if (post1.user < post2.user) {
           return -1;
         }
         return 0;
       }
-      return this.items.sort(compare);
+      return this.posts.sort(compare);
     },
   },
   created() {
-    this.getItems();
+    this.getPosts();
   },
 });

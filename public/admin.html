@@ -3,65 +3,64 @@
 
 <head>
   <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
-  <link rel="stylesheet" href="/styles.css" />
-  <title>Midterm Admin</title>
+  <link rel="stylesheet" href="styles.css">
+  <title>Mini-Insta Admin</title>
 </head>
 
 <body>
   <div id="admin" class="content">
-    <h1>Store Management Interface</h1>
+    <h1>Mini-Insta Admin</h1>
     <div class="heading">
-      <h2>Add a Product</h2>
+      <h2>Add a Post</h2>
     </div>
     <div class="add">
       <div class="form">
-        <input v-model="title" placeholder="Title">
+        <input v-model="user" placeholder="Username">
         <p></p>
         <input type="file" name="photo" @change="fileChanged">
-        <input type="textarea" name="price" placeholder="Product Price" v-model="price">
+        <input type="textarea" name="description" placeholder="Photo Description" v-model="description">
         <button @click="upload">Upload</button>
       </div>
-      <div class="upload" v-if="addItem">
-        <h2>{{addItem.title}}</h2>
-        <img :src="addItem.path" />
+      <div class="upload" v-if="addPost">
+        <h2>{{addPost.user}}</h2>
+        <img :src="addPost.path" />
       </div>
     </div>
     <div class="heading">
-      <div class="circle">2</div>
-      <h2>Edit/Delete an Product</h2>
+      <h2>Edit/Delete an Post</h2>
     </div>
     <div class="edit">
       <div class="form">
-        <input v-model="findTitle" placeholder="Search">
+        <input v-model="findUser" placeholder="Search">
         <div class="suggestions" v-if="suggestions.length > 0">
-          <div class="suggestion" v-for="s in suggestions" @click="selectItem(s)">{{s.title}}
+          <div class="suggestion" v-for="s in suggestions" @click="selectPost(s)">{{s.user}}
           </div>
         </div>
       </div>
-      <div class="upload" v-if="findItem">
-        <input v-model="findItem.title">
+      <div class="upload" v-if="findPost">
+        <input v-model="findPost.user">
         <p></p>
-        <img :src="findItem.path" />
+        <img :src="findPost.path" />
         <p></p>
-        <input v-model="findItem.price">
+        <input v-model="findPost.description">
       </div>
-      <div class="actions" v-if="findItem">
-        <button @click="deleteItem(findItem)">Delete</button>
-        <button @click="editItem(findItem)">Edit</button>
+      <div class="actions" v-if="findPost">
+        <button @click="deletePost(findPost)">Delete</button>
+        <button @click="editPost(findPost)">Edit</button>
       </div>
     </div>
     <section class="image-gallery">
-      <div class="image" v-for="item in sortProducts">
-        <h2>{{item.title}}</h2>
-        <img :src="item.path" width="200" />
-        <p>{{item.price}}</p>
-        <p v-if="item.purchase">This product has been ordered.</p>
+      <div class="image" v-for="post in sortProducts">
+        <h2>{{post.user}}</h2>
+        <img :src="post.path" width="200" />
+        <p>{{post.description}}</p>
+        <p v-if="post.purchase">This product has been ordered.</p>
       </div>
     </section>
   </div>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js" integrity="sha256-mpnrJ5DpEZZkwkE1ZgkEQQJW/46CSEh/STrZKOB/qoM=" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.7/vue.js" integrity="sha256-g+Q8DFAmG5+eyRPSydX0LY4TfjsL11XSDrIGerbbEdA=" crossorigin="anonymous"></script>
-  <script src="/admin.js"></script>
+  <script src="admin.js"></script>
 </body>
 
 </html>

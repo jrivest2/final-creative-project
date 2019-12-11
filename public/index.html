@@ -4,45 +4,34 @@
 <head>
   <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
   <link rel="stylesheet" href="styles.css" />
-  <title>Midterm Store</title>
+  <title>Mini-Insta Home</title>
 </head>
 
 <body>
   <div class="header">
     <div class="title">
-      <h1>Current Products</h1>
-      <h2>Shopping Interface</h2>
+      <h1>Mini-Insta</h1>
+      <h2>News Feed</h2>
     </div>
   </div>
  <div id="app" class="content">
     <section class="image-gallery">
-      <div class="image" v-for="item in items">
-        <input type="checkbox" v-model="item.purchase" >
-        <h2>{{item.title}}</h2>
-        <img :src="item.path" />
-        <p>{{item.price}}</p>
+      <div class="image" v-for="post in posts">
+        <div class="circle"></div>
+        <h2>{{post.user}}</h2>
+        <img :src="post.path" />
+        <p>{{post.likes}} Likes!</p>
+        <p>{{post.description}}</p>
+        <form v-bind:post="post">
+          <button @click="tallyPost(post)">Like Post</button>
+        </form>
       </div>
     </section>
-    <form v-on:submit.prevent="purchaseItems">
-      <button type="submit">Purchase Items</button>
-    </form>
-    <div class="cart">
-    <h2>Shopping Cart</h2>
-    <div v-if="itemsInCart">
-      <section class="image-gallery">
-        <div class="image" v-for="item in purchasedItems">
-          <h2>{{item.title}}</h2>
-          <img :src="item.path" />
-          <p>{{item.price}}</p>
-        </div>
-      </section>
-    </div>
-  </div>
   </div>
   
   <div class="footer">
     <a href="admin.html">Admin</a>
-    <a href="https://github.com/BYUCS260/midterm-2-jrivest2.git">Github</a>
+    <a href="https://github.com/jrivest2/final-creative-project.git">Github</a>
   </div>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js" integrity="sha256-mpnrJ5DpEZZkwkE1ZgkEQQJW/46CSEh/STrZKOB/qoM=" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.7/vue.js" integrity="sha256-g+Q8DFAmG5+eyRPSydX0LY4TfjsL11XSDrIGerbbEdA=" crossorigin="anonymous"></script>

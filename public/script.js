@@ -1,41 +1,40 @@
 var app = new Vue({
   el: '#app',
   data: {
-    items: [],
-    purchasedItems: [],
-    itemsInCart: false,
+    posts: [],
+    liked: false,
   },
   methods: {
-    async getItems() {
+    async getPosts() {
       try {
         let response = await axios.get("/api/items");
-        this.items = response.data;
-        console.log(this.items);
+        this.posts = response.data;
+        console.log(this.posts);
         return true;
       } catch (error) {
         console.log(error);
       }
     },
-    purchaseItems() {
-      for (var i = 0; i < this.items.length; ++i) {
-        if (this.items[i].purchase == true) {
-          this.purchasedItems.push(this.items[i]);
-        }
-      }
-      this.itemsInCart = true;
-      console.log(this.purchasedItems);
-      for (var i = 0; i < this.purchasedItems.length; ++i) {
-        this.editItem(this.purchasedItems[i]);
-      }
+    //
+    //Go through and change this to tally number of likes a post has.
+    //
+    tallyPost(post) {
+      this.post.likes++;
+      this.editPost(this.post);
+      this.post.liked = false;
     },
-    async editItem(item) {
+    likedPost() {
+      this.post.liked = true;
+      this.tallyPost(this.post);
+    },
+    async editPost(post) {
       try {
-        let response = await axios.put("/api/items/" + item._id, {
-          title: item.title,
-          price: item.price,
-          purchase: item.purchase,
+        let response = await axios.put("/api/items/" + post._id, {
+          user: post.user,
+          description: post.description,
+          likes: post.likes,
         });
-        this.getItems();
+        this.getPosts();
         return true;
       }
       catch (error) {
@@ -44,6 +43,6 @@ var app = new Vue({
     },
   },
   created() {
-    this.getItems();
+    this.getPosts();
   },
 });
