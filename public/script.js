@@ -2,7 +2,7 @@ var app = new Vue({
   el: '#app',
   data: {
     posts: [],
-    liked: false,
+
   },
   methods: {
     async getPosts() {
@@ -19,15 +19,12 @@ var app = new Vue({
     //Go through and change this to tally number of likes a post has.
     //
     tallyPost(post) {
-      this.post.likes++;
-      this.editPost(this.post);
-      this.post.liked = false;
-    },
-    likedPost() {
-      this.post.liked = true;
-      this.tallyPost(this.post);
+      post.likes += .5;
+      this.editPost(post);
+
     },
     async editPost(post) {
+      console.log(post);
       try {
         let response = await axios.put("/api/items/" + post._id, {
           user: post.user,

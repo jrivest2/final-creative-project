@@ -17,12 +17,11 @@
  <div id="app" class="content">
     <section class="image-gallery">
       <div class="image" v-for="post in posts">
-        <div class="circle"></div>
         <h2>{{post.user}}</h2>
-        <img :src="post.path" />
+        <img :src="post.path">
         <p>{{post.likes}} Likes!</p>
         <p>{{post.description}}</p>
-        <form v-bind:post="post">
+        <form v-on:submit.prevent="tallyPost(post)">
           <button @click="tallyPost(post)">Like Post</button>
         </form>
       </div>
